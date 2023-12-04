@@ -6,6 +6,7 @@ using UnityEngine;
 // 2. 키보드 3번 키를 누르면 3인칭 뷰로 전환한다.
 public class CameraRotate : MonoBehaviour
 {
+    [SerializeField] Transform target;
     [SerializeField] bool isThirdPersonView = false;
     [SerializeField] GameObject thirdPersonPosition;
     [SerializeField] float speed = 10;
@@ -38,16 +39,23 @@ public class CameraRotate : MonoBehaviour
             }
         }
 
-        float horizontalInput = Input.GetAxis("Mouse X");
-        float verticalInput = Input.GetAxis("Mouse Y");
+        if(!isThirdPersonView) // 1인칭의 경우
+        {
+            float horizontalInput = Input.GetAxis("Mouse X");
+            float verticalInput = Input.GetAxis("Mouse Y");
 
-        mouseX += horizontalInput * speed * Time.deltaTime;
-        mouseY += verticalInput * speed * Time.deltaTime;
+            mouseX += horizontalInput * speed * Time.deltaTime;
+            mouseY += verticalInput * speed * Time.deltaTime;
 
-        mouseY = Mathf.Clamp(mouseY, -90, 90);
+            mouseY = Mathf.Clamp(mouseY, -90, 90);
 
-        Vector3 rotationValue = new Vector3(-mouseY, mouseX, 0);
+            Vector3 rotationValue = new Vector3(-mouseY, mouseX, 0);
 
-        transform.eulerAngles = rotationValue;
+            transform.eulerAngles = rotationValue;
+        }
+        else // 3인칭의 경우
+        {
+            transform.LookAt(target);
+        }
     }
 }
