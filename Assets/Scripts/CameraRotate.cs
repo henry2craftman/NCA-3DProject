@@ -8,6 +8,7 @@ public class CameraRotate : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] bool isThirdPersonView = false;
+    public bool IsThirdPersonView { get { return isThirdPersonView; } }
     [SerializeField] GameObject thirdPersonPosition;
     [SerializeField] float speed = 10;
     float mouseX, mouseY;
@@ -24,18 +25,19 @@ public class CameraRotate : MonoBehaviour
         {
             isThirdPersonView = !isThirdPersonView;
 
-            if (isThirdPersonView)
+            if (isThirdPersonView) // 3ÀÎÄª
             {
                 transform.SetParent(thirdPersonPosition.transform);
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.identity;
+                Camera.main.fieldOfView = 80;
             }
-            else
+            else // 1ÀÎÄª
             {
                 transform.SetParent(thirdPersonPosition.transform.parent);
                 transform.localPosition = originCamPos;
                 transform.localRotation = Quaternion.identity;
-
+                Camera.main.fieldOfView = 60;
             }
         }
 

@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] CameraRotate cameraRotate;
     [SerializeField] float speed = 10;
+    [SerializeField] float rotSpeed = 200;
     [SerializeField] float gravity = -10;
     [SerializeField] float jumpPower = 10;
     float yVelocity;
@@ -54,9 +55,9 @@ public class PlayerMove : MonoBehaviour
 
         void RotatePlayer()
         {
-            float horizontalInput = Input.GetAxis("Mouse X");
+            float mouseInput = Input.GetAxis("Mouse X");
 
-            mouseX += horizontalInput * speed * Time.deltaTime;
+            mouseX += mouseInput * rotSpeed * Time.deltaTime;
 
             Vector3 rotationValue = new Vector3(0, mouseX, 0);
 
