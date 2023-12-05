@@ -10,6 +10,12 @@ public class PlayerFire : MonoBehaviour
     [SerializeField] GameObject throwObject;
     [SerializeField] GameObject rayEffect;
     [SerializeField] float throwPower = 5;
+    CameraRotate cameraRotate;
+
+    private void Start()
+    {
+        cameraRotate = GetComponentInChildren<CameraRotate>();
+    }
 
     void Update()
     {
@@ -17,10 +23,16 @@ public class PlayerFire : MonoBehaviour
         {
             // 폭탄을 생성
             GameObject bomb = Instantiate(throwObject);
-            bomb.transform.position = Camera.main.transform.position;
+            bomb.transform.position = transform.position + new Vector3(0, 0.6f, 0);
+            Vector3 direction = transform.forward;
 
-            // 방향을 설정
-            Vector3 direction = Camera.main.transform.forward;
+            if (!cameraRotate.IsThirdPersonView)
+            {
+                bomb.transform.position = Camera.main.transform.position;
+
+                // 방향을 설정
+                direction = Camera.main.transform.forward;
+            }
 
             // 힘을 전달
             bomb.GetComponent<Rigidbody>().AddForce(direction * throwPower, ForceMode.Impulse);
@@ -28,10 +40,6 @@ public class PlayerFire : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0)) // 0번 왼쪽, 1번 오른쪽, 2번 휠
         {
-            //print(Input.mousePosition);
-            //Vector3 touchWorldPos = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //print(touchWorldPos);
-
             // 발사할 광선을 선언
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -47,6 +55,7 @@ public class PlayerFire : MonoBehaviour
                 effect.transform.position = hitInfo.point;
                 effect.transform.forward = hitInfo.normal; // 법선벡터, 노말벡터
             }
+
         }
     }
 }

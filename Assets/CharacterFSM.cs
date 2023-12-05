@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 유한상태머신(FSM)에 따라서 동작시키고 싶다.
 // 1.Idle: 대기상태
@@ -39,6 +40,9 @@ public class CharacterFSM : MonoBehaviour
     Vector3 originPos;
     Animator animator;
 
+    // Navigation
+    NavMeshAgent agent;
+
     void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -46,6 +50,7 @@ public class CharacterFSM : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         originPos = transform.position;
         animator = GetComponentInChildren<Animator>();
+        agent = GetComponent<NavMeshAgent>();
 
         UpdateNPCDialogue();
     }
@@ -112,14 +117,21 @@ public class CharacterFSM : MonoBehaviour
         // 캐릭터의 Forward 방향을 플레이어의 방향으로.
 
         float distance = (player.transform.position - transform.position).magnitude;
-        Vector3 direction = (player.transform.position - transform.position).normalized;
 
-        transform.forward = direction;
+        //MoveToPlayer();
+        void MoveToPlayer()
+        {
+            Vector3 direction = (player.transform.position - transform.position).normalized;
 
-        yVelocity += gravity * Time.deltaTime;
-        direction.y = yVelocity;
+            transform.forward = direction;
 
-        characterController.Move(direction * speed * Time.deltaTime);
+            yVelocity += gravity * Time.deltaTime;
+            direction.y = yVelocity;
+
+            characterController.Move(direction * speed * Time.deltaTime);
+        }
+
+        agent.destination = player.transform.position;
 
         if (distance > recognizeDistance)
         {
@@ -161,12 +173,18 @@ public class CharacterFSM : MonoBehaviour
         }
 
 
-        transform.forward = direction;
+        //MoveToOriginPos();
+        void MoveToOriginPos()
+        {
+            transform.forward = direction;
 
-        yVelocity += gravity * Time.deltaTime;
-        direction.y = yVelocity;
+            yVelocity += gravity * Time.deltaTime;
+            direction.y = yVelocity;
 
-        characterController.Move(direction * speed * Time.deltaTime);
+            characterController.Move(direction * speed * Time.deltaTime);
+        }
+
+        agent.destination = originPos;
     }
 
     private void Talk()

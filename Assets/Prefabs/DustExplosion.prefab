@@ -3691,7 +3691,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     type: 0
     collisionMode: 0
@@ -3874,7 +3874,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4926,6 +4926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfaf5367eecea9844ba5296ea7507f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyTime: 1.5
 --- !u!1 &1129888670383888
 GameObject:
   m_ObjectHideFlags: 0

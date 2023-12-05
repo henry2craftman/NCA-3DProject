@@ -37,4 +37,9 @@ public class BombAction : MonoBehaviour
         Gizmos.color = new Color(0, 0.45f, 1, 0.5f);
         Gizmos.DrawSphere(transform.position, radius);
     }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        print(other.name);
+    }
 }
