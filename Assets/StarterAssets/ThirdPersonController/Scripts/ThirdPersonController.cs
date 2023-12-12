@@ -159,11 +159,6 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
-
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                _animator.SetTrigger("Sit");
-            }
         }
 
         private void LateUpdate()
