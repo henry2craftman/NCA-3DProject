@@ -118,7 +118,16 @@ public class CharacterFSM : MonoBehaviour
 
         float distance = (player.transform.position - transform.position).magnitude;
 
-        //MoveToPlayer();
+        if(agent != null)
+        {
+            agent.destination = player.transform.position;
+        }
+        else
+        {
+            MoveToPlayer();
+        }
+        
+
         void MoveToPlayer()
         {
             Vector3 direction = (player.transform.position - transform.position).normalized;
@@ -131,7 +140,6 @@ public class CharacterFSM : MonoBehaviour
             characterController.Move(direction * speed * Time.deltaTime);
         }
 
-        agent.destination = player.transform.position;
 
         if (distance > recognizeDistance)
         {
@@ -173,7 +181,15 @@ public class CharacterFSM : MonoBehaviour
         }
 
 
-        //MoveToOriginPos();
+        if (agent != null)
+        {
+            agent.destination = originPos;
+        }
+        else
+        {
+            MoveToOriginPos();
+        }
+
         void MoveToOriginPos()
         {
             transform.forward = direction;
@@ -183,8 +199,6 @@ public class CharacterFSM : MonoBehaviour
 
             characterController.Move(direction * speed * Time.deltaTime);
         }
-
-        agent.destination = originPos;
     }
 
     private void Talk()
